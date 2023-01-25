@@ -1,0 +1,8 @@
+Xcursor.theme: Qogir
+Xcursor.size: 16
+Sxiv.background: #000000
+Sxiv.foreground: #FFFFFF
+Sxiv.font: Hack-10
+xterm*background: #070427
+xterm*foreground: lightgray
+xterm*faceName: monospace:pixelsize=12
