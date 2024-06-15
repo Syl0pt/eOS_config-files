@@ -1,0 +1,163 @@
+=====i3-GAPS=====
+After install, change default terminal in config file 
+(Line 44) bindsym [$mod+Return exec xterm]
+reload i3 [mod+shft+r]
+--
+Install i3status (if not already installed)
+[sudo apt install i3status]
+--
+Exit i3 [$mod+Shift+e]
+=====RANGER======
+https://github.com/ranger/ranger#getting-started
+install: [sudo pacman -S ranger]
+after install: [ranger --copy-config=all] then [export RANGER_LOAD_DEFAULT_RC="FALSE"]
+
+--
+Get WM_CLASS of program (once cursor turns to 'X' or '+' sign, click program window to get name
+$ xprop | grep WM_CLASS | awk '{print $4}'
+--
+- Adust Mouse Sensitivity
+
+source:
+https://askubuntu.com/questions/172972/configure-mouse-speed-not-pointer-acceleration
+
+First, run [$ xinput list] to find the device number of your mouse:
+
+$ xinput list #jpf_Updated 2022jan08#
+⎡ Virtual core pointer                    	id=2	[master pointer  (3)]
+⎜   ↳ Virtual core XTEST pointer              	id=4	[slave  pointer  (2)]
+⎜   ↳ Logitech MX Vertical                    	id=11	[slave  pointer  (2)]
+⎜   ↳ ETPS/2 Elantech Touchpad                	id=14	[slave  pointer  (2)]
+⎣ Virtual core keyboard                   	id=3	[master keyboard (2)]
+    ↳ Virtual core XTEST keyboard             	id=5	[slave  keyboard (3)]
+    ↳ Power Button                            	id=6	[slave  keyboard (3)]
+    ↳ Power Button                            	id=8	[slave  keyboard (3)]
+    ↳ Lid Switch                              	id=9	[slave  keyboard (3)]
+    ↳ Ideapad extra buttons                   	id=12	[slave  keyboard (3)]
+    ↳ AT Translated Set 2 keyboard            	id=13	[slave  keyboard (3)]
+    ↳ Lenovo EasyCamera: Lenovo EasyC         	id=10	[slave  keyboard (3)]
+    ↳ Video Bus                               	id=7	[slave  keyboard (3)]
+    ↳ Logitech MX Vertical                    	id=15	[slave  keyboard (3)]
+
+----
+#Bottm line no longer relevant#
+#On my laptop, the device id I want is 10 (SONiX RGB Mouse). On your system, you will have to decide which device is the correct one. 
+#Next, run [$ xinput list-props <your device id>] to see the current settings for that device:
+ 
+#$ xinput list-props 10
+#Device 'SONiX RGB Mouse ':
+#    Device Enabled (115):   1
+#    Device Accel Profile (241):     1
+#    Device Accel Constant Deceleration (242):       2.500000
+#    Device Accel Adaptive Deceleration (243):       1.000000
+#    Device Accel Velocity Scaling (244):    12.500000
+#  [ many more settings omitted ]
+#
+#The property you are interested in is "Device Accel Constant Deceleration (267)". 
+#To slow your mouse down, the value must be increased by running [xinput set-prop <your device id> <property id> <value>]:
+#example: $ xinput set-prop 9 244 3
+
+Extra Tip:
+#Next, run [$ xinput list-props <your device id>] to see the current settings for that device:
+To turn OFF TouchPad do: 
+$ xinput set-prop 14 165 0
+
+Done
+===========CHANGE-DISPLAY-RESOLUTION================
+[xrandr -s 1366x768]
+
+==========INSTALL-VIM-AND-VIM-PLUGINS==============
+$ yay -S vim
+
+Create .vimrc file in $HOME and add:
+:set nowrap
+
+=========SET-UP-CRONTAB========
+#opens cron in vim to add crojobs
+$ crontab -e
+#removes ALL jobs in crontab
+#use '-e' to edit individual cronjobs
+
+=========SET-UP-VIRTUAL-ENVIRONMENT-(venv)========
+
+-Create environment in target dir
+$ virtualenv foo
+
+-Activate created environment
+$ source foo/biin/activate
+
+-To run env in Python3
+$ python3 -m venv foo
+
+-To disable venv session
+$ deactivate
+
+=======RAND-NOTES==========
+Programs to learn about
+Docker - PaaS
+MySQL - FOSS Database Server
+Git - FOSS Distributed Version Control System?
+Apache HTTP Server Project - FOSS Cross-Platform Web Server Software
+Nginx - High Performance Load Balancer, Web Server
+Node.js - JavaScript application builder?
+Next Cloud - File Sharing/Collaboration Platform?
+Wireguard - VPN Tunnel
+Own Cloud - Private Server
+qBittorenta - FOSS BitTorrent client
+Emby - Media Server (Plex alternative)
+Jellyfin - Media Server
+Plex - Media Server
+Daphile - Music Player & Server (targeted to headless PCs)
+LibreELEC - Linux Entertainment Center
+OMV (Open Media Vault) - NAS 
+Volumio - Music Player
+PfSense - FOSS Firewall/Router
+OpenWrt - Router Sytem?
+HomeBridge - NojeJS server (iOS emulator)
+
+====Problems-jpf-ran-into-and-how-to-fix=====
+-WARNING GIVEN:-
+-------------------------------------
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LC_ADDRESS = "en_US.UTF-8",
+	LC_MONETARY = "en_US.UTF-8",
+	LC_PAPER = "en_US.UTF-8",
+	LC_INDENTIFICATION = "en_US.UTF-8",
+	LC_TELEPHONE = "en_US.UTF-8",
+	LC_MEASUREMENT = "en_US.UTF-8",
+	LC_TIME = "en_US.UTF-8",
+	LC_NUMERIC = "en_US.UTF-8",
+	LANG = "en_US.UTF-8",
+are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C")
+--------------------------------------
+-HOW IT WAS FIXED-
+1.Open "/etc/locale.gen"
+2.Uncomment "en_US.UTF-8 UTF-8" (using sudo)
+3.cd into /home/
+4.Run "$ locale-gen"
+5.Then just to be safe, upgrade and reboot system.
+source: https://wiki.archlinux.org/title/Locale
+===========NNN_PROPER_SETUP========
+-URGENT: Set nnn up in the method posted below.-
+-It comes with icons and plugins already added.
+-DON'T use AUR for install, doesn't have bells/whistles this does-
+----
+$ git clone --depth 1 https://github.com/jarun/nnn
+$ cd nnn
+$ sudo make O_NERD=1
+$ sudo cp nnn /usr/bin
+=========TITLE-HERE==============
+=========TITLE-HERE==============
+=========TITLE-HERE==============
+=========TITLE-HERE==============
+=========TITLE-HERE==============
+=========TITLE-HERE==============
+=========TITLE-HERE==============
+=========TITLE-HERE==============
+=========TITLE-HERE==============
+=========TITLE-HERE==============
+=========TITLE-HERE==============

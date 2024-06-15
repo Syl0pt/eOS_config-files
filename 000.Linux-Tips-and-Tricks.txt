@@ -1,0 +1,218 @@
+CLI programs
+$ ripit 	- rip cd's
+$ cws		- burn cd's
+$ wikit     - wikipedia summary search
+$ pngquant  - *png compressor
+$ jp2a      - convert images to ASCII
+-----------------------
+-----------------------
+==GENERAL_TIPS==
+----------------------------
+-Check Basic System Info
+$ inxi -Fxzd
+-Alternative with less info
+$ neofetch
+----------------------------
+-Check CPU Temperature Farenheit
+$ sensors -f
+https://ostechnix.com/view-cpu-temperature-linux/
+----------------------------
+-Check RAM type
+$ sudo dmidecode --type 17
+https://www.cyberciti.biz/faq/check-ram-speed-linux/
+----------------------------
+-Check programs currently in RAM
+$ ps ax
+----------------------------
+-Check Motherboard type
+$ sudo dmidecode | grep -A3 "Base Board Information"
+https://appuals.com/how-to-find-out-what-motherboard-you-have-in-linux-or-ubuntu/
+----------------------------
+-Add user (Guest Accound) to machine.
+$ 
+----------------------------
+-List All Packages on System
+$ pacman -Q
+https://linuxhint.com/list_installed_packages_pacman_arch_linux/
+----------------------------
+-Find filename on on current HD
+$ find . -iname "*filename*"
+----------------------------
+-Copy only Directory Structure without the files
+$rsync -av -f"+ */" -f"- *" "/path/to/source" "/path/to/target"
+https://www.cyberciti.biz/faq/unix-linux-bsdosx-copying-directory-structures-trees-rsync/
+https://stackoverflow.com/questions/4073969/copy-folder-structure-without-files-from-one-location-to-another
+----------------------------
+-Find filename in specific dir
+$ find /path/to/dir/ -iname "*filename*"
+----------------------------
+-Alter xterm global settings
+1. Make desired changes to [$ /home/syl0pt/.Xresources] (or [$ ~/.Xresources])
+2. Save changes with [$ xrdb -merge ~/.Xresources]
+----------------------------
+-Add text to file without opening file
+$ echo "text to insert" > filename.txt
+https://www.reddit.com/r/commandline/comments/i8ttik/vim_emacs_or_nano/g1b1opp/
+----------------------------
+-create dir and put converted images into new dir
+$ mkdir -p converted && for file in *.jpg; convert -rotate 90 $file "converted/`basename $file .jpg`.jpg"; done
+-Give .sh files permission to be executed with ./filename
+$ chmod +x filename.sh
+----------------------------
+-create numbered dirs using mkdir
+$ mkdir filename{1..50}
+https://unix.stackexchange.com/questions/48750/creating-numerous-directories-using-mkdir
+----------------------------
+-Make file read-only
+$ chmod 0444 filename.ext
+https://www.cyberciti.biz/faq/howto-set-readonly-file-permission-in-linux-unix/
+----------------------------
+-Make programs launch upon Mint start-up
+1. find filenameProgramName.desktop
+2. sudo cp filenameProgramName.desktop into /home/user/.config/autostart (for MAIN user)
+and/or
+3. sudo cp filenameProgramName.desktop into /etc/xdg/autostart (for ALL users)
+winaero How to Manage Startup Apps in Linux Mint - Winaero
+----------------------------
+-Create .rar file
+$ rar a filename.rar filename or *.ext
+-List .rar files
+$ unrar l filename.rar
+-Extract .rar file with file structure
+$ unrar x filename.rar
+-Extract .rar file without file structure
+$ unrar e filename.rar
+https://www.tecmint.com/how-to-open-extract-and-create-rar-files-in-linux/
+----------------------------
+-Create zip file
+$ zip filename.zip filename or *.ext
+----------------------------
+-Extract all .zip files in dir.
+$ unzip '*.zip'
+----------------------------
+-Create tar.gz file
+$ tar -czvf filename.tar.gz DirName
+-List files in tar.gz
+$ tar -ztvf filename.tar.gz
+-Extract tar.gz files
+$ tar -xzvf filename.tar.gz
+https://www.cyberciti.biz/faq/how-to-create-tar-gz-file-in-linux-using-command-line/
+----------------------------
+-Create 7zip file
+$ 7z a filename.7z
+-Extract 7z file
+$ 7z e filename.7z
+-Update 7z file
+$ 7z u filename.7z
+-Create 7z.zip file
+$ 7z a -tzip filename.zip
+---------------------------
+-Extract .xz file
+unxz file_name.xz
+---------------------------
+- Encrypt file with gpg
+$ gpg -c filename.ext
+- Decrypt file with gpg
+$ gpg filename.ext
+----------------------------
+- Format USBdrive/HDD/SD Card
+$ df -h #Identify Disk; usually /dev/sde for FlashDrive
+$ sudo umount /dev/sde #Unmount before format
+$ sudo mkfs.ntfs /dev/sde #Formats FlashDrive; use -F to force format.
+https://tecadmin.net/format-usb-in-linux/
+Extra note: Once drive is formatted, to give full permissions to drive do:
+'$sudo chown -R user:user /path/to/formatted/drive' NOT '/dev/sde'
+'path/to/formatted/drive' is ur mount point. 'dev/sde' is block device.
+jpf_ask: https://www.reddit.com/r/archlinux/comments/151f2lk/having_trouble_moving_files_to_newly_formatted/
+----------------------------
+- Show Linux version
+$ inxi -S
+or
+$ cat /etc/*-release
+----------------------------
+- Show the time (duration) it takes to complete script
+$ time ./filename (or $ time bash filename)
+----------------------------
+- Remove everything in dir
+$ rm /path/to/dir/*
+-r for recursive
+askubuntu.com/questions/60228/how-to-remove-all-files-from-a-directory
+Also:
+$ rm -rf /path/to/dir
+-rf will delete all files & subdirectories.
+https://www.computerhope.com/issues/ch000798.htm
+----------------------------
+- Move dir into other dir
+$ mv path/to/sourceDir* /path/to/targetDir/
+unix.stackexchange.com/questions/439744/move-folders-only-with-mv
+----------------------------
+- Add 'Date & Time Modifed' to beginning of all files in dir
+$ for f in *; do mv -n "$f" "$(date -r "$f" +'%Y%m%d_%H%M%S')_$f"; done 
+https://www.reddit.com/r/commandline/comments/b182z3/command_to_add_date_modified_time_to_filenames/
+----------------------------
+- Display total duration of multiple vids
+$ find . -maxdepth 1 -iname '*.ts' -exec ffprobe -v quiet -of csv=p=0 -show_entries format=duration {} \; | paste -sd+ -| bc
+https://unix.stackexchange.com/questions/170961/get-total-duration-of-video-files-in-a-directory
+----------------------------
+- Delete all directories in current folder
+$ rm -R -- */
+https://unix.stackexchange.com/questions/68846/how-do-i-remove-all-sub-directories-from-within-a-directory
+----------------------------
+- Write output to multiple dirs (with tee)
+$ cmd | tee path/to/dir/filename1.ext path/to/dir/filename2.ext , etc...
+https://unix.stackexchange.com/questions/41246/how-to-redirect-output-to-multiple-log-files
+==========IMAGEMAGICK=============
+- Flip image horizontal or vertical
+$ convert filename.jpg -flip vertfilename.jpg  #vertical
+$ convert filename.jpg -flop horizfilename.jpg #horizontal
+- Bulk image flop
+$ for f in *.jpg; do convert -flop "$f" ${f%}_flop.jpg
+- Rotate image 
+$ convert filename.jpg -rotate 90 clockwisefilename.jpg     #90degreesClockwise
+$ convert filename.jpg -rotate -90 counterclockfilename.jpg #90degreesCounterClockwise
+https://codeyarns.com/2016/07/05/how-to-rotate-image-using-imagemagick/
+- Bulk rotate image
+$ mkdir -p converted && for file in *.jpg; do convert -rotate -90 $file "converted/`basename $file .jpg`.jpg"; done
+----------------------------
+- Convert *webp to *jpg
+$ dwebp input.web -o output.jpg #singular_use
+$ for f in for f in *webp; do dwebp "$f" -o "$f".jpg; done *multiple_use
+https://unix.stackexchange.com/questions/70622/convert-webp-to-jpg-error-no-decode-delegate-for-this-image-format-and-missi
+----------------------------
+- Append text to file from echo (Good for creating separator line for .logs)
+$ echo "Text Here" >>file.txt.
+jpf use: $ echo "#=#=#=#=#=#=#" >>file.txt
+https://unix.stackexchange.com/questions/412835/append-text-with-echo-without-new-line
+- Create list of numbers sequentially
+$ seq 1 1000 > filename.txt
+use -w for leading zeros
+----------------------------
+- Move certain file ext from multiple subdir to one dir
+$ find . -name '*.ext' -exec mv {} /path/to/single/target/directory \;
+----------------------------------
+- Move list of items into dir using xargs
+$ xargs mv -t dir_name < list_name.txt
+================VIM==============
+- Highlight duplicate lines
+1. Sort the file using :sort #confirmed-works
+2. Execute command :g/^\(.*\)$\n\1$/p 
+https://stackoverflow.com/questions/1268032/how-can-i-mark-highlight-duplicate-lines-in-vi-editor
+----------------------------
+- Delete empty lines
+:g/^$/d
+https://stackoverflow.com/questions/706076/vim-delete-blank-lines/706083
+----------------------------------
+- ADD Metadata to files
+-metadata DESCRIPTION="filenamebar"
+----------------------------------
+- Use notify-send, at, and maybe crontab to create a notification list to remind you of upcoming TV Shows/Important Dates
+$ notify-send -u critical -t 0 --icon=/usr/share/icons/oxygen/16x16/devices/video-television.png "$(date +%Y%b%d)|Premiering Tonight" "Westworld S03" <--(example template)
+----------------------------------
+- Merge multiple .pdf files into one .pdf file (with PdfUnite)
+$ pdfunite *pdf filename.pdf
+----------------------------------
+- Shuffle/Randomize a *txt or *log list
+$ shuf filename.ext
+----------------------------------
+- Run all .sh scripts in a row alphabetically
+$ for f in *.sh; do bash "$f" -H; done
