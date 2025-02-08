@@ -62,9 +62,9 @@ bindsym $mod+Shift+Return exec --no-startup-id rofi -show run
 ##############################
 
 #border indicator on windows:
-new_window pixel 3
+new_window pixel 2
 
-# thin borders
+#thin borders
 hide_edge_borders both
 
 # hide border when only one panel
@@ -73,7 +73,11 @@ hide_edge_borders smart
 # Set inner/outer gaps
 gaps inner 6
 gaps outer 2
-smart_gaps off 
+#smart_gaps off
+
+# Disable inner and outer gaps for workspace number X
+workspace $ws1 gaps inner 0
+workspace $ws1 gaps outer 0
 
 # show window title bars (not officially supported with i3gaps)
 #default_border normal
@@ -157,7 +161,7 @@ bindcode $mod+Shift+81 	 move container to workspace  $ws9
 bindcode $mod+Shift+90 	 move container to workspace  $ws10
 
 #resize window (you can also use the mouse for that):
-# mode "resize" {
+  mode "resize" {
 # These bindings trigger as soon as you enter the resize mode
 # Pressing left will shrink the window's width.
 # Pressing right will grow the window's width.
@@ -169,16 +173,16 @@ bindcode $mod+Shift+90 	 move container to workspace  $ws10
 #         bindsym ntilde resize grow width 10 px or 10 ppt
 
 # same bindings, but for the arrow keys
-#	bindsym Left resize shrink width 10 px or 10 ppt
-#       bindsym Down resize grow height 10 px or 10 ppt
-#       bindsym Up resize shrink height 10 px or 10 ppt
-#       bindsym Right resize grow width 10 px or 10 ppt
+ 	bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Up resize grow height 10 px or 10 ppt
+        bindsym Down resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
 
 # back to normal: Enter or Escape
-#	bindsym Return mode "default"
-#       bindsym Escape mode "default"
-#}
-#bindsym $mod+r mode "resize"
+ 	bindsym Return mode "default"
+        bindsym Escape mode "default"
+ }
+ bindsym $mod+r mode "resize"
 
 ######################################
 # keybindings for different actions: #
@@ -225,7 +229,6 @@ bindsym $mod+o focus right
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
-
 bindsym $mod+Right focus right
 
 # move focused window
@@ -289,16 +292,22 @@ bindsym XF86AudioMute exec amixer sset Master toggle && killall -USR1 i3blocks
 bindsym $mod+p exec /usr/local/bin/switch-audio-port
 
 ## App shortcuts
+bindsym $mod+Ctrl+b exec /usr/bin/VirtualBox
+bindsym $mod+Ctrl+c exec calibre
 bindsym $mod+Ctrl+f exec firefox
-bindsym $mod+Ctrl+r exec xfce4-terminal -e ranger
-bindsym $mod+Ctrl+n exec xfce4-terminal -e nnn
+bindsym $mod+Ctrl+Shift+f exec firefox -p ffsxy
 bindsym $mod+Ctrl+j exec /usr/bin/jdownloader
+bindsym $mod+Ctrl+n exec xfce4-terminal --class scratchpad -e nnn
+bindsym $mod+Ctrl+o exec obsidian
+bindsym $mod+Ctrl+e exec zathura --mode fullscreen /run/media/jpf/GRN2/LITERATURE/READING_NOW/*epub
+bindsym $mod+Ctrl+q exec qutebrowser
+bindsym $mod+Ctrl+r exec xfce4-terminal -e ranger
 bindsym $mod+Ctrl+s exec subl
-bindsym $mod+Ctrl+b exec calibre
-bindsym $mod+Ctrl+v exec /usr/bin/VirtualBox
+bindsym $mod+Ctrl+v exec pavucontrol
+bindsym $mod+Ctrl+w exec nsxiv ~/scripts/zz.1366x766-white-solid-color-background.jpg -fb
 bindsym $mod+Ctrl+x exec /usr/bin/xdman
-bindsym $mod+Ctrl+w exec sxiv ~/scripts/zz.1366x766-white-solid-color-background.jpg -fb
-bindsym $mod+n exec /usr/bin/thunar
+bindsym $mod+n exec /usr/bin/pcmanfm
+#bindsym Mod1+TAB exec xfce4-terminal --drop-down
 bindsym Print exec scrot ~/screens/%Y-%m-%d-%T-screenshot.png && notify-send "Screenshot saved to ~/screens/$(date +"%Y-%m-%d-%T")-screenshot.png"
 
 # Power Profiles menu switcher (rofi)
@@ -315,10 +324,10 @@ set $ws2 "2:"
 set $ws3 "3:"
 set $ws4 "4:"
 set $ws5 "5:"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
+set $ws6 "06"
+set $ws7 "07"
+set $ws8 "08"
+set $ws9 "09"
 set $ws10 "10"
 
 # use workspaces on different displays:
@@ -333,21 +342,27 @@ set $ws10 "10"
 # bind program to workspace and focus to them on startup:
 assign [class="(?i)firefox"] $ws1
 assign [class="Xfce4-terminal"] $ws2
-assign [class="xdman"] $ws3
-assign [class="Thunar"] $ws3
+assign [class="(?i)firefox -p ffsxy"] $ws3
+assign [class="Pcmanfm"] $ws3
 assign [class="Thunderbird"] $ws4
 assign [class="Gimp-2.10"] $ws4
 assign [class="TelegramDesktop"] $ws5
+assign [class="obsidian"] $ws5
+assign [class="qutebrowser"] $ws6
 assign [class="Subl"] $ws6
+assign [class="xdman"] $ws7
 assign [class="ctbrec.ui.CamrecApplication"] $ws7
 assign [class="VirtualBox"] $ws8
+assign [class="Thunderbird"] $ws9
 assign [class="jdownloader"] $ws10
 
 # automatic set focus new window if it opens on another workspace then the current:
 for_window [class=(?i)firefox] focus
 for_window [class=Xfce4-terminal] focus
-for_window [class=Thunar] focus
+for_window [class=Pcmanfm] focus
 for_window [class=Thunderbird] focus
+for_window [class=obsidian] focus
+for_window [class=qutebroswer] focus
 for_window [class=TelegramDesktop] focus
 for_window [class=Subl] focus
 for_window [class=VirtualBox] focus
@@ -373,6 +388,7 @@ for_window [class=VirtualBox] focus
 # picom: https://wiki.archlinux.org/title/Picom
 # manpage: https://man.archlinux.org/man/picom.1.en
 #exec_always --no-startup-id picom -b
+ exec_always --no-startup-id picom -f --experimental-backends
 #exec_always --no-startup-id killall picom && picom -b
 #exec_always --no-startup-id picom --config ~/.config/picom.conf
 
@@ -407,14 +423,15 @@ exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id ~/.screenlayout/monitor.sh
 
 # set wallpaper
-#xec --no-startup-id sleep 2 && nitrogen --restore
-exec --no-startup-id feh --bg-fill /home/jpf/Pictures/WALLS/misc/imgur_AyRyc_106_650vhES.jpg
-#exec --no-startup-id feh --bg-fill /home/jpf/Pictures/WALLS/Claudia_Lingerie_jpf_TWO_2660x1496_FIN.jpg
-#exec --no-startup-id feh --bg-fill /home/jpf/Pictures/WALLS/KennWall-for_jpf_i3-top-bar.jpg
+ exec --no-startup-id feh --bg-fill "/home/jpf/Pictures/WALLS/city_lights/scenic_imgur_lkhbk88_025_0kqwJJT.jpg"
+#exec --no-startup-id feh --bg-fill "/home/jpf/Pictures/WALLS/EpNaP - 1366x768/imgur_EpNaP_049_87esfYq.jpg"
+#exec --no-startup-id feh --bg-fill "/home/jpf/Pictures/WALLS/Claudia_Lingerie_jpf_TWO_2660x1496_FIN.jpg"
+#exec --no-startup-id feh --bg-fill "/home/jpf/Pictures/WALLS/KennWall-for_jpf_i3-top-bar.jpg"
+#exec --no-startup-id sleep 2 && nitrogen --restore
 
 
 # set powersavings for display:
-exec --no-startup-id xset s 0 dpms 900 900 900
+exec --no-startup-id xset s 0 dpms 1800 1800 1800
 
 # disable power saving (for example if using xscreensaver)
 #exec --no-startup-id xset -dpms
@@ -439,11 +456,13 @@ exec --no-startup-id dbus-launch dunst --config ~/.config/dunst/dunstrc
 #exec_always --no-startup-id autotiling
 
 # Autostart apps as you like
-#exec --no-startup-id sleep 2 && xfce4-terminal
-#exec --no-startup-id sleep 7 && firefox https://github.com/endeavouros-team/endeavouros-i3wm-setup/blob/main/force-knowledge.md
-#exec --no-startup-id sleep 3 && thunar
- exec --no-startup-id sleep 5 && pm2 resurrect
- exec --no-startup-id sleep 4 && yakuake
+#exec --no-startup-id sleep 2 && gammastep -l 29.9:-92.1 -t 4800:3600 -g 0.8 -m randr -v
+ exec --no-startup-id sleep 2 && thunderbird
+ exec --no-startup-id sleep 3 && pcmanfm
+ exec --no-startup-id sleep 4 && guake
+#exec --no-startup-id sleep 5 && pm2 resurrect
+
+bindsym $mod+g exec ~/.config/i3/toggle_gammastep.sh
 
 ###############
 # system tray #
@@ -455,7 +474,7 @@ exec --no-startup-id dbus-launch dunst --config ~/.config/dunst/dunstrc
 #exec --no-startup-id blueberry-tray
 
 # networkmanager-applet
-#exec --no-startup-id nm-applet
+exec --no-startup-id nm-applet
 
 # clipman-applet
 #exec --no-startup-id xfce4-clipman
@@ -467,14 +486,17 @@ exec --no-startup-id dbus-launch dunst --config ~/.config/dunst/dunstrc
 # set floating (nontiling) for apps needing it
 for_window [class="Yad" instance="yad"] floating enable
 for_window [class="Galculator" instance="galculator"] floating enable
-for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
+for_window [class="Calculator" instance="calculator"] floating enable
+#for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
+#for_window [class="Xfce4-terminal" instance="xfce4-terminal"] floating enable, resize set 800 600 
+
 
 # set floating (nontiling) for special apps
 for_window [class="Xsane" instance="xsane"] floating enable
 for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
 for_window [class="qt5ct" instance="qt5ct"] floating enable
-for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
-for_window [class="Bluetooth-sendto" instance="bluetooth-sendto"] floating enable
+#for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
+#for_window [class="Bluetooth-sendto" instance="bluetooth-sendto"] floating enable
 for_window [class="Pamac-manager"] floating enable
 for_window [window_role="About"] floating enable
 for_window [class="firefox"] smart_gaps on
@@ -520,32 +542,32 @@ client.urgent		    $urgentred	$urgentred	$white		$purple		$yellowbrown
 
 # Start i3bar to display a workspace bar
 # (plus the system information i3status finds out, if available)
- bar {
- 		font pango: Noto Sans Regular 10
- 		status_command i3blocks -c ~/.config/i3/i3blocks.conf
- 	    	position top
- 	    	i3bar_command i3bar --transparency
+bar {
+		font pango: Noto Sans Regular 10
+		status_command i3blocks -c ~/.config/i3/i3blocks.conf
+	    	position top
+# 	    	i3bar_command i3bar --transparency
 # it could be that you have no primary display set: set one (xrandr --output <output> --primary)
 # reference: https://i3wm.org/docs/userguide.html#_tray_output
-        	    tray_output primary
-        	    tray_padding 0
-
+       	    tray_output primary
+       	    tray_padding 0
+#
 # When strip_workspace_numbers is set to yes,
 # any workspace that has a name of the form
 # “[n][:][NAME]” will display only the name.
 strip_workspace_numbers yes
 ##strip_workspace_name no
-
-		    colors {
-		    separator          $purple
-		    background         $darkgrey
-		    statusline         $white
+ 
+        	    colors {
+        	    separator          $purple
+        	    background         $darkgrey
+        	    statusline         $white
 #                          		border 		        bg		txt		indicator
-		focused_workspace	$mediumgrey	   	$grey		$darkgrey	$purple
-		active_workspace	$lightblue      	$mediumgrey	$darkgrey	$purple
-		inactive_workspace	$darkgrey   		$darkgrey	$grey		$purple
-		urgent_workspace	$urgentred	    	$urgentred	$white		$purple
-	}
+        	focused_workspace	$mediumgrey	   	$grey		$darkgrey	$purple
+        	active_workspace	$lightblue      	$mediumgrey	$darkgrey	$purple
+        	inactive_workspace	$darkgrey   		$darkgrey	$grey		$purple
+        	urgent_workspace	$urgentred	    	$urgentred	$white		$purple
+        }
 }
 
 # you can add different bars for multidisplay setups on each display:
@@ -565,7 +587,7 @@ strip_workspace_numbers yes
 # any workspace that has a name of the form
 # “[n][:][NAME]” will display only the name.
 #strip_workspace_numbers yes
-##strip_workspace_name no
+#strip_workspace_name no
 #
 #	colors {
 #		separator          $purple
@@ -606,7 +628,7 @@ bindsym $mod+t exec rofi -show window \
 #		-config ~/.config/rofi/rofidmenu.rasi
 
 # disable touchpad
-exec --no-startup-id xinput set-prop 17 165 0
+exec --no-startup-id xinput set-prop 16 165 0
 
 # lauch doom emacs daemon upon startup
 exec --no-startup-id /usr/bin/emacs --daemon
